@@ -352,9 +352,21 @@ You will see the login page. Use the admin credentials to log in, or register a 
 
 ## 🎬 Demo Video
 
-A full walkthrough demonstration video covering all user roles, CRUD operations, and API testing is available at:
+A full walkthrough demonstration video covering all user roles, CRUD operations, and API testing.
 
-**[Demo Video on Google Drive](https://drive.google.com/file/d/1ETGjVZUepJOi-_TQLDzbfjjvQB2zC8aS/view?usp=sharing)**
+### 📂 Local Video
+
+The project demo video is included in this repository:
+
+```
+Video/Project_Video.mp4
+```
+
+> To view: clone the repo and open `Video/Project_Video.mp4` with any media player.
+
+### ☁️ Online Link
+
+**[▶ Watch Demo Video on Google Drive](https://drive.google.com/file/d/1ETGjVZUepJOi-_TQLDzbfjjvQB2zC8aS/view?usp=sharing)**
 
 *(Access setting: Anyone with the link can view)*
 
