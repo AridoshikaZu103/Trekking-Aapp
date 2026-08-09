@@ -72,7 +72,7 @@ jobs:
           print('GET /api/treks -> 200 OK (JSON)')
 
           # Test login with admin credentials
-          resp = client.post('/', data={'username': 'admin', 'password': 'adminpassword'}, follow_redirects=True)
+          resp = client.post('/login', data={'username': 'admin', 'password': 'adminpassword'}, follow_redirects=True)
           assert resp.status_code == 200, f'Admin login returned {resp.status_code}'
           print('POST / (admin login) -> 200 OK')
 
