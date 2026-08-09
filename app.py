@@ -45,21 +45,9 @@ app.register_blueprint(staff_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(api_bp)
 
-# SPA fallback route for React frontend
-@app.route('/', defaults={'path': ''}, endpoint='index')
-@app.route('/<path:path>')
-def index(path=''):
-    if path.startswith('api/'):
-        return jsonify({'status': 'error', 'message': 'API route not found'}), 404
-    
-    # If dist/index.html exists, serve React built SPA
-    dist_index = os.path.join(dist_folder, 'index.html')
-    if os.path.exists(dist_index):
-        if path and os.path.exists(os.path.join(dist_folder, path)):
-            return send_from_directory(dist_folder, path)
-        return send_from_directory(dist_folder, 'index.html')
-    
-    # Fallback to Jinja2 template if dist hasn't been built yet
+# Root / SPA fallback route
+@app.route('/', endpoint='index')
+def index():
     if current_user.is_authenticated:
         if current_user.role == 'admin':
             return redirect(url_for('admin.dashboard'))
@@ -67,7 +55,102 @@ def index(path=''):
             return redirect(url_for('staff.dashboard'))
         else:
             return redirect(url_for('user.dashboard'))
+    
+    dist_index = os.path.join(dist_folder, 'index.html')
+    if os.path.exists(dist_index):
+        return send_from_directory(dist_folder, 'index.html')
+    
+    return redirect(url_for('login'))
+
+# Login Route
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '')
+
+        user = User.query.filter_by(username=username).first()
+
+        if user and user.check_password(password):
+            if user.status == 'pending':
+                flash('Your staff registration is currently pending administrator approval.', 'warning')
+                return render_template('login.html')
+            elif user.status == 'blacklisted':
+                flash('Your account has been blacklisted. Access denied.', 'danger')
+                return render_template('login.html')
+
+            login_user(user)
+            flash(f'Welcome back, {user.username}!', 'success')
+            return redirect(url_for('index'))
+        else:
+            flash('Invalid username or password. Please try again.', 'danger')
+
+    dist_index = os.path.join(dist_folder, 'index.html')
+    if os.path.exists(dist_index):
+        return send_from_directory(dist_folder, 'index.html')
+
     return render_template('login.html')
+
+# Register Route
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
+        role = request.form.get('role', 'user')
+
+        if not username or not email or not password:
+            flash('All fields are required.', 'warning')
+            return render_template('register.html')
+
+        if User.query.filter_by(username=username).first():
+            flash('Username already exists. Please choose a different one.', 'warning')
+            return render_template('register.html')
+
+        if User.query.filter_by(email=email).first():
+            flash('Email already registered. Please login or use a different email.', 'warning')
+            return render_template('register.html')
+
+        status = 'pending' if role == 'staff' else 'approved'
+
+        new_user = User(
+            username=username,
+            email=email,
+            role=role,
+            status=status
+        )
+        new_user.set_password(password)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        if role == 'staff':
+            flash('Staff registration submitted successfully! Please await Admin approval before logging in.', 'info')
+        else:
+            flash('Registration successful! You can now log in.', 'success')
+
+        return redirect(url_for('login'))
+
+    dist_index = os.path.join(dist_folder, 'index.html')
+    if os.path.exists(dist_index):
+        return send_from_directory(dist_folder, 'index.html')
+
+    return render_template('register.html')
+
+# Logout Route
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'info')
+    return redirect(url_for('login'))
 
 # Database initialization and default admin seeding
 def init_db():
