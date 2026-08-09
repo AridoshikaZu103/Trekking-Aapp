@@ -46,9 +46,9 @@ app.register_blueprint(user_bp)
 app.register_blueprint(api_bp)
 
 # SPA fallback route for React frontend
-@app.route('/', defaults={'path': ''})
+@app.route('/', defaults={'path': ''}, endpoint='index')
 @app.route('/<path:path>')
-def serve_spa(path):
+def index(path=''):
     if path.startswith('api/'):
         return jsonify({'status': 'error', 'message': 'API route not found'}), 404
     
