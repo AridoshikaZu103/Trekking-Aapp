@@ -1,0 +1,34 @@
+# .gitignore for Trekking Management App V1
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# SQLite database (auto-generated at runtime)
+instance/
+*.db
+
+# Project report (binary, not tracked in version control)
+Project_Report.pdf
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Distribution / packaging
+*.egg-info/
+dist/
+build/
