@@ -55,10 +55,15 @@ jobs:
           from app import app
           client = app.test_client()
 
-          # Test login page loads
+          # Test root redirects to login (302) or serves login (200)
           resp = client.get('/')
+          assert resp.status_code in (200, 302), f'Root returned {resp.status_code}'
+          print(f'GET / -> {resp.status_code} (redirect or login page)')
+
+          # Test login page loads (follow redirects)
+          resp = client.get('/', follow_redirects=True)
           assert resp.status_code == 200, f'Login page returned {resp.status_code}'
-          print('GET / -> 200 OK')
+          print('GET / (follow redirects) -> 200 OK')
 
           # Test API treks endpoint
           resp = client.get('/api/treks')
