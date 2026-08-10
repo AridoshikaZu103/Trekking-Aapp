@@ -2,7 +2,7 @@ name: Trekking App CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, feature/*]
   pull_request:
     branches: [main, master]
 
@@ -22,21 +22,20 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install Flask Flask-SQLAlchemy Flask-Login Werkzeug
-          pip install flake8 pytest
+          pip install Flask Flask-SQLAlchemy Flask-Login Werkzeug flake8 pytest
 
       - name: Lint with flake8
         run: |
-          # Stop build on syntax errors or undefined names
+          # Check for syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-          # Treat all other issues as warnings (non-blocking)
+          # Treat other issues as warnings
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics
 
       - name: Verify app imports
         run: |
           python -c "from app import app; print('Flask app imported successfully')"
 
-      - name: Verify database initialization
+      - name: Verify database initialization & admin seeding
         run: |
           python -c "
           from app import app, db
@@ -46,24 +45,24 @@ jobs:
               admin = User.query.filter_by(username='admin').first()
               assert admin is not None, 'Default admin user was not created'
               assert admin.role == 'admin', 'Admin user has wrong role'
-              print('Database initialized successfully with admin user')
+              print('Database initialized successfully with default admin user')
           "
 
-      - name: Run API smoke tests
+      - name: Run API & Route smoke tests
         run: |
           python -c "
           from app import app
           client = app.test_client()
 
-          # Test root redirects to login (302) or serves login (200)
+          # Test root route (302 redirect or 200 OK)
           resp = client.get('/')
           assert resp.status_code in (200, 302), f'Root returned {resp.status_code}'
-          print(f'GET / -> {resp.status_code} (redirect or login page)')
+          print(f'GET / -> {resp.status_code}')
 
-          # Test login page loads (follow redirects)
-          resp = client.get('/', follow_redirects=True)
-          assert resp.status_code == 200, f'Login page returned {resp.status_code}'
-          print('GET / (follow redirects) -> 200 OK')
+          # Test login page route
+          resp = client.get('/login')
+          assert resp.status_code == 200, f'/login returned {resp.status_code}'
+          print('GET /login -> 200 OK')
 
           # Test API treks endpoint
           resp = client.get('/api/treks')
@@ -71,10 +70,10 @@ jobs:
           assert resp.content_type == 'application/json'
           print('GET /api/treks -> 200 OK (JSON)')
 
-          # Test login with admin credentials
-          resp = client.post('/login', data={'username': 'admin', 'password': 'adminpassword'}, follow_redirects=True)
-          assert resp.status_code == 200, f'Admin login returned {resp.status_code}'
-          print('POST / (admin login) -> 200 OK')
+          # Test admin API login
+          resp = client.post('/api/login', json={'username': 'admin', 'password': 'adminpassword'})
+          assert resp.status_code == 200, f'/api/login returned {resp.status_code}'
+          print('POST /api/login (admin) -> 200 OK')
 
-          print('All smoke tests passed!')
+          print('All CI smoke tests passed successfully!')
           "
