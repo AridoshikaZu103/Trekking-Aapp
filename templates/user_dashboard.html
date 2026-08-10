@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}Trekker Portal - TrekOps{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold text-dark mb-1"><i class="bi bi-compass text-teal me-2"></i>Explore & Book Treks</h3>
+        <p class="text-muted mb-0">Discover exciting trekking destinations and manage your active bookings.</p>
+    </div>
+</div>
+
+<!-- Search & Filter Bar -->
+<div class="card card-custom p-3 mb-4">
+    <form action="{{ url_for('user.dashboard') }}" method="GET" class="row g-2 align-items-center">
+        <div class="col-md-5">
+            <div class="input-group">
+                <span class="input-group-text bg-white text-muted"><i class="bi bi-search"></i></span>
+                <input type="text" name="location" class="form-control" placeholder="Search by location (e.g. Himalayas, Alps)..." value="{{ search_location }}">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-text bg-white text-muted">$</span>
+                <input type="number" step="10" name="max_price" class="form-control" placeholder="Max Budget Price" value="{{ search_max_price or '' }}">
+            </div>
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+            <button type="submit" class="btn btn-primary-custom flex-grow-1 rounded-pill">
+                Filter
+            </button>
+            <a href="{{ url_for('user.dashboard') }}" class="btn btn-outline-secondary rounded-pill">
+                Reset
+            </a>
+        </div>
+    </form>
+</div>
+
+<!-- Open Treks Grid -->
+<h5 class="fw-bold mb-3"><i class="bi bi-mountains me-2 text-teal"></i>Available Trek Destinations</h5>
+{% if treks %}
+    <div class="row g-4 mb-5">
+        {% for trek in treks %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card card-custom h-100 p-3 d-flex flex-column justify-content-between">
+                    <div>
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="fw-bold text-dark mb-0">{{ trek.title }}</h5>
+                            <span class="badge badge-status-open">Open</span>
+                        </div>
+
+                        <div class="text-muted small mb-3">
+                            <i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ trek.location }}
+                        </div>
+
+                        <p class="text-secondary small mb-3 text-truncate-3" style="min-height: 48px;">
+                            {{ trek.description or 'Experience breathtaking views and memorable trails on this guided trek destination.' }}
+                        </p>
+
+                        <div class="bg-light p-2.5 rounded-3 mb-3 d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="text-muted extra-small d-block text-uppercase fw-semibold">Price per slot</span>
+                                <span class="fs-5 fw-bold text-teal">${{ "%.2f"|format(trek.price) }}</span>
+                            </div>
+                            <div class="text-end">
+                                <span class="text-muted extra-small d-block text-uppercase fw-semibold">Seats Remaining</span>
+                                <span class="badge {% if trek.available_slots > 0 %}bg-success-subtle text-success{% else %}bg-danger-subtle text-danger{% endif %} rounded-pill px-2.5 py-1">
+                                    {{ trek.available_slots }} / {{ trek.capacity }} available
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        {% set user_booked = my_bookings|selectattr('trek_id', 'equalto', trek.id)|selectattr('status', 'equalto', 'confirmed')|list %}
+                        {% if user_booked %}
+                            <button class="btn btn-secondary w-100 rounded-pill" disabled>
+                                <i class="bi bi-check-circle-fill me-1"></i> Already Booked
+                            </button>
+                        {% elif trek.available_slots <= 0 %}
+                            <button class="btn btn-outline-danger w-100 rounded-pill" disabled>
+                                Fully Booked
+                            </button>
+                        {% else %}
+                            <form action="{{ url_for('user.book_trek', trek_id=trek.id) }}" method="POST">
+                                <button type="submit" class="btn btn-primary-custom w-100 rounded-pill">
+                                    <i class="bi bi-ticket-detailed me-1"></i> Book Slot Now
+                                </button>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="card card-custom p-4 text-center mb-5">
+        <p class="text-muted mb-0">No open trek destinations found matching your criteria.</p>
+    </div>
+{% endif %}
+
+<!-- Booking History Section -->
+<h5 class="fw-bold mb-3"><i class="bi bi-clock-history me-2 text-primary"></i>My Booking History</h5>
+<div class="card card-custom p-3">
+    {% if my_bookings %}
+        <div class="table-responsive">
+            <table class="table table-custom table-hover align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Booking ID</th>
+                        <th>Trek Title</th>
+                        <th>Location</th>
+                        <th>Price</th>
+                        <th>Booking Date</th>
+                        <th>Status</th>
+                        <th class="text-end">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in my_bookings %}
+                    <tr>
+                        <td class="fw-semibold">#BK-{{ booking.id }}</td>
+                        <td class="fw-bold text-dark">{{ booking.trek.title }}</td>
+                        <td><i class="bi bi-geo-alt text-muted me-1"></i>{{ booking.trek.location }}</td>
+                        <td class="fw-semibold">${{ "%.2f"|format(booking.trek.price) }}</td>
+                        <td class="small text-muted">{{ booking.booking_date.strftime('%b %d, %Y %H:%M') }}</td>
+                        <td>
+                            {% if booking.status == 'confirmed' %}
+                                <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill">Confirmed</span>
+                            {% else %}
+                                <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill">Cancelled</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end">
+                            {% if booking.status == 'confirmed' %}
+                                <form action="{{ url_for('user.cancel_booking', booking_id=booking.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to cancel this booking?');">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm rounded-pill">
+                                        Cancel Booking
+                                    </button>
+                                </form>
+                            {% else %}
+                                <span class="text-muted small">No actions</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="text-center py-4 text-muted">
+            <i class="bi bi-ticket-perforated fs-2 d-block mb-2 text-secondary"></i>
+            You haven't booked any treks yet. Find a trek destination above and book your first adventure!
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
