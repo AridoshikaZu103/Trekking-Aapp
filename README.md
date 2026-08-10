@@ -1,6 +1,6 @@
-# Trekking Management App V1 (React + Vite + Flask)
+# Trekking Management App V1
 
-A state-of-the-art, multi-role web application built for managing trekking expeditions, staff assignments, trekker bookings, and REST API integrations. Featuring a **React 18 + Vite** frontend with Tailwind CSS glassmorphic aesthetics, `vite.svg` browser tab icon, and a **Flask (Python)** REST API backend.
+A comprehensive, multi-role Flask web application built for managing trekking operations, staff assignments, user bookings, and REST API integrations. Featuring an ultra-sleek dark glassmorphism design system with a mountain trekking sunrise wallpaper.
 
 Developed as a course project for **MAD-1** at IIT Madras.
 
@@ -56,13 +56,13 @@ Developed as a course project for **MAD-1** at IIT Madras.
 
 | Layer | Technology |
 |---|---|
-| **Frontend Framework** | React 18, Vite 5 |
-| **Styling & Icons** | Tailwind CSS 3.4, Glassmorphism, Lucide Icons, Bootstrap Icons |
-| **Browser Favicon** | `public/vite.svg` |
-| **Backend API** | Python 3.10+, Flask 3.x REST API |
-| **ORM & Database** | Flask-SQLAlchemy, SQLite (`instance/trekking.db`) |
-| **Auth & Sessions** | Flask-Login, Werkzeug PBKDF2 Password Hashing, CORS |
-| **Deployment** | Vercel (`@vercel/static-build` + `@vercel/python`) |
+| **Backend Framework** | Python 3.10+, Flask 3.x |
+| **ORM & Database** | Flask-SQLAlchemy (SQLAlchemy 2.x), SQLite (`instance/trekking.db`) |
+| **Authentication** | Flask-Login, Werkzeug PBKDF2 Password Hashing, Session Management |
+| **Templates & UI** | Jinja2 HTML5 Templates, Bootstrap 5.3 CDN, Bootstrap Icons |
+| **Design System** | Custom Dark Glassmorphism, Mountain Sunrise Wallpaper (`style.css`) |
+| **REST API** | Flask JSON Endpoints (`/api/*`) |
+| **CI/CD & Deploy** | GitHub Actions (`ci.yml`), Vercel (`@vercel/python`) |
 
 ---
 
@@ -70,43 +70,34 @@ Developed as a course project for **MAD-1** at IIT Madras.
 
 ```
 trekking_app/
-├── index.html                  # Main HTML entrypoint with vite.svg favicon & Google Fonts
-├── package.json                # React 18, Vite, Tailwind CSS, Lucide icons dependencies
-├── vite.config.js              # Vite dev server proxy (/api -> 5000) & build configuration
-├── tailwind.config.js          # Tailwind CSS design system configuration
-├── postcss.config.js           # PostCSS setup
-├── vercel.json                 # Vercel deployment routes (React static + Python serverless)
-├── .env.example                # Environment variables template
-├── .gitignore                  # Excludes node_modules, dist, bytecode, SQLite DB
-├── app.py                      # Flask backend app entrypoint with CORS & SPA fallback
+├── app.py                      # Main Flask application entrypoint & database setup
+├── vercel.json                 # Vercel deployment routes (@vercel/python)
 ├── Project_Report.pdf          # Academic project report document
 ├── README.md                   # Complete project documentation (this file)
-├── public/
-│   └── vite.svg                # Browser tab favicon icon
-├── src/
-│   ├── main.jsx                # React root mount
-│   ├── App.jsx                 # Main SPA router & Flask API state manager
-│   ├── index.css               # Dark glassmorphic design system & custom utilities
-│   ├── components/
-│   │   └── Navbar.jsx          # Header with logo, user profile, and role badges
-│   └── pages/
-│       ├── LoginPage.jsx       # Glassmorphic login card with quick-fill admin button
-│       ├── RegisterPage.jsx    # Registration page with Trekker vs Staff role selector
-│       ├── AdminDashboard.jsx  # Superuser control center with metrics & CRUD modal
-│       ├── StaffDashboard.jsx  # Staff management portal with status toggles & rosters
-│       └── UserDashboard.jsx   # Trekker explore & booking portal with search/price slider
+├── requirements.txt            # Python dependencies (Flask, SQLAlchemy, Flask-Login, Werkzeug)
+├── .gitignore                  # Excludes bytecode, SQLite DB, IDE settings, virtual envs
+├── .github/
+│   └── workflows/
+│       └── ci.yml              # GitHub Actions CI workflow (lint, DB test, API smoke test)
 ├── models/
 │   ├── __init__.py             # SQLAlchemy instance initialization
 │   └── models.py               # User, Trek, Booking, StaffAssignment ORM models
 ├── controllers/
 │   ├── __init__.py             # Package initialization
-│   ├── admin_routes.py         # Admin routes
-│   ├── staff_routes.py         # Staff routes
-│   ├── user_routes.py          # User routes
-│   └── api_routes.py           # Comprehensive Flask REST API endpoints (JSON)
+│   ├── admin_routes.py         # Admin controller routes
+│   ├── staff_routes.py         # Staff controller routes
+│   ├── user_routes.py          # User controller routes
+│   └── api_routes.py           # REST API endpoints (JSON responses)
+├── templates/
+│   ├── base.html               # Layout template with glassmorphic navbar & footer
+│   ├── login.html              # Login page with quick-fill admin credentials
+│   ├── register.html           # Registration page with role selector
+│   ├── admin_dashboard.html    # Admin management dashboard with modal & tabs
+│   ├── staff_dashboard.html    # Staff portal with status toggles & rosters
+│   └── user_dashboard.html     # Trekker explore & booking dashboard with filters
 └── static/
     ├── css/
-    │   └── style.css           # Custom CSS fallback stylesheet
+    │   └── style.css           # Glassmorphic CSS design system & mountain background
     └── images/
         └── trekking_bg.png     # Epic mountain trekking background wallpaper
 ```
@@ -169,37 +160,34 @@ All API responses return standard JSON.
 
 ## 🚀 How to Run the Application
 
-### Option A: Local Development (React + Flask)
+### Prerequisites
 
-1. **Start Flask API Backend**:
-   ```bash
-   python app.py
-   ```
-   *Runs on `http://127.0.0.1:5000` and auto-seeds SQLite database with default admin user.*
+- Python 3.10 or higher installed.
 
-2. **Start Vite React Dev Server** (in a separate terminal):
-   ```bash
-   npm install
-   npm run dev
-   ```
-3. Open **[http://localhost:3000](http://localhost:3000)** in your browser!
-
-### Option B: Production Build (Single Server)
+### Step 1 — Install Dependencies
 
 ```bash
-npm run build
-python app.py
+pip install Flask Flask-SQLAlchemy Flask-Login Werkzeug
 ```
-*Flask automatically serves the built React SPA from `dist/` at `http://127.0.0.1:5000`.*
+
+### Step 2 — Run Flask App
+
+```bash
+py app.py
+```
+
+### Step 3 — Open in Browser
+
+Navigate to **[http://127.0.0.1:5000](http://127.0.0.1:5000)** in your browser!
 
 ---
 
 ## 🌐 Vercel Deployment
 
-This project is configured for seamless single-repo deployment on **Vercel**:
+This repository is configured for single-click deployment on **Vercel**:
 
-- **`vercel.json`** routes `/api/*` requests to `app.py` via `@vercel/python` serverless functions.
-- All frontend routes are built using `@vercel/static-build` from `package.json` into `dist/`.
+- **`vercel.json`** routes requests to `app.py` via `@vercel/python` serverless functions.
+- Static assets (`static/css/style.css`, `static/images/trekking_bg.png`) are served directly by Vercel's CDN.
 
 To deploy on Vercel:
 1. Import `AridoshikaZu103/Trekking-Aapp` repository into Vercel.
@@ -218,7 +206,7 @@ To deploy on Vercel:
 
 ## 🎬 Demo Video
 
-A full walkthrough video covering all user roles, CRUD operations, and React UI features is embedded in the repository:
+A full walkthrough video covering all user roles, CRUD operations, and features is embedded in the repository:
 
 https://github.com/user-attachments/assets/Video/Project_Video.mp4
 
