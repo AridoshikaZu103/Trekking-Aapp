@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import db
 from models.models import User, Trek, Booking, StaffAssignment
@@ -8,10 +8,25 @@ from controllers.staff_routes import staff_bp
 from controllers.user_routes import user_bp
 from controllers.api_routes import api_bp
 
-app = Flask(__name__)
+# Configure Flask app to serve built React static files if dist folder exists
+dist_folder = os.path.join(os.path.dirname(__file__), 'dist')
+if os.path.exists(dist_folder):
+    app = Flask(__name__, static_folder=dist_folder, static_url_path='')
+else:
+    app = Flask(__name__)
+
 app.config['SECRET_KEY'] = 'mad1-trekking-app-secret-key-2026'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trekking.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Enable basic CORS headers for local Vite dev server
+@app.after_request
+def add_cors_headers(response):
+    response.headers['Access-Control-Allow-Origin'] = request.headers.get('Origin', '*')
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    return response
 
 # Initialize extensions
 db.init_app(app)
@@ -19,7 +34,6 @@ db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-login_manager.login_message_category = 'warning'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -31,8 +45,8 @@ app.register_blueprint(staff_bp)
 app.register_blueprint(user_bp)
 app.register_blueprint(api_bp)
 
-# Root route
-@app.route('/')
+# Root / SPA fallback route
+@app.route('/', endpoint='index')
 def index():
     if current_user.is_authenticated:
         if current_user.role == 'admin':
@@ -41,6 +55,11 @@ def index():
             return redirect(url_for('staff.dashboard'))
         else:
             return redirect(url_for('user.dashboard'))
+    
+    dist_index = os.path.join(dist_folder, 'index.html')
+    if os.path.exists(dist_index):
+        return send_from_directory(dist_folder, 'index.html')
+    
     return redirect(url_for('login'))
 
 # Login Route
@@ -69,6 +88,10 @@ def login():
         else:
             flash('Invalid username or password. Please try again.', 'danger')
 
+    dist_index = os.path.join(dist_folder, 'index.html')
+    if os.path.exists(dist_index):
+        return send_from_directory(dist_folder, 'index.html')
+
     return render_template('login.html')
 
 # Register Route
@@ -95,7 +118,6 @@ def register():
             flash('Email already registered. Please login or use a different email.', 'warning')
             return render_template('register.html')
 
-        # Staff accounts start as 'pending', trekker users start as 'approved'
         status = 'pending' if role == 'staff' else 'approved'
 
         new_user = User(
@@ -115,6 +137,10 @@ def register():
             flash('Registration successful! You can now log in.', 'success')
 
         return redirect(url_for('login'))
+
+    dist_index = os.path.join(dist_folder, 'index.html')
+    if os.path.exists(dist_index):
+        return send_from_directory(dist_folder, 'index.html')
 
     return render_template('register.html')
 

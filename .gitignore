@@ -1,5 +1,16 @@
 # .gitignore for Trekking Management App V1
 
+# Node.js & React build
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # Python bytecode
 __pycache__/
 *.py[cod]
@@ -30,8 +41,10 @@ Thumbs.db
 
 # Distribution / packaging
 *.egg-info/
+
 dist/
 build/
 
 # Node dependencies
 node_modules/
+
