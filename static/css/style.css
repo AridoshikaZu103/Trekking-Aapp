@@ -1,201 +1,213 @@
-/* Modern Glassmorphic CSS Design System for Trekking Management App */
+/* TrekOps Premium Design System - Matching Image 5 Exactly */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary-color: #0d9488;
-    --primary-hover: #0f766e;
-    --secondary-color: #3b82f6;
-    --dark-bg: #0f172a;
-    --card-bg: rgba(30, 41, 59, 0.7);
-    --accent-emerald: #10b981;
-    --accent-amber: #f59e0b;
-    --accent-rose: #f43f5e;
+    --primary-blue: #0d6efd;
+    --primary-blue-hover: #0b5ed7;
+    --sidebar-bg: #071939;
+    --sidebar-text: #94a3b8;
+    --sidebar-active-bg: #0d6efd;
+    --main-bg: #f8fafc;
+    --card-border: #e2e8f0;
 }
 
 body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #0f172a;
-    background-image: 
-        radial-gradient(at 0% 0%, rgba(13, 148, 136, 0.18) 0px, transparent 50%),
-        radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.18) 0px, transparent 50%),
-        linear-gradient(to bottom, rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)),
-        url('../images/trekking_bg.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    color: #f1f5f9;
+    background-color: var(--main-bg);
+    color: #1e293b;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* --- SPLIT-SCREEN LOGIN STYLES --- */
+.login-wrapper {
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
+    background: #071939;
 }
 
-main {
+.login-hero {
     flex: 1;
+    position: relative;
+    background-image: linear-gradient(135deg, rgba(7, 25, 57, 0.85), rgba(2, 44, 94, 0.75)), url('../images/trekker_hero_bg.png');
+    background-size: cover;
+    background-position: center;
+    padding: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #ffffff;
 }
 
-/* Translucent Glass Navbar */
-.navbar {
-    background: rgba(15, 23, 42, 0.75) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.navbar-brand {
-    font-weight: 800;
-    font-size: 1.35rem;
-    letter-spacing: -0.5px;
-    color: #ffffff !important;
-}
-
-.brand-icon {
-    display: inline-flex;
+.login-hero-brand {
+    display: flex;
     align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: linear-gradient(135deg, #0d9488, #0284c7);
-    color: white;
-    border-radius: 12px;
-    margin-right: 10px;
-    box-shadow: 0 4px 15px rgba(13, 148, 136, 0.4);
+    gap: 10px;
+    font-size: 1.6rem;
+    font-weight: 800;
 }
 
-/* Glassmorphism Cards */
-.card-custom, .card, .metric-card {
-    background: rgba(30, 41, 59, 0.65) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 20px !important;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    color: #f8fafc !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.login-hero-title {
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 1rem;
 }
 
-.card-custom:hover, .metric-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(20, 184, 166, 0.4) !important;
-    box-shadow: 0 12px 40px 0 rgba(13, 148, 136, 0.25);
+.login-hero-title span.text-highlight-cyan {
+    color: #38bdf8;
 }
 
-.metric-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
+.login-hero-title span.text-highlight-blue {
+    color: #3b82f6;
+}
+
+.login-hero-subtitle {
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+}
+
+.feature-pill {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1.25rem;
+}
+
+.feature-icon-circle {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.1rem;
+    color: #ffffff;
+}
+
+.login-form-container {
+    width: 480px;
+    background: #ffffff;
+    padding: 3.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.btn-primary-blue {
+    background-color: #0d6efd !important;
+    border: none !important;
+    border-radius: 10px !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    padding: 0.8rem 1.5rem !important;
+    font-size: 1rem !important;
+    transition: all 0.2s ease !important;
+}
+
+.btn-primary-blue:hover {
+    background-color: #0b5ed7 !important;
+    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.35) !important;
+}
+
+/* --- DASHBOARD SIDEBAR LAYOUT --- */
+.dashboard-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    background: #071939;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.75rem 1.25rem;
+    flex-shrink: 0;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 1.4rem;
+    font-weight: 800;
+    margin-bottom: 2rem;
+    color: #ffffff;
 }
 
-/* Badges */
-.badge-role {
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.4em 0.85em;
-    border-radius: 50rem;
+.sidebar-section-title {
+    font-size: 0.7rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
+    color: #64748b;
+    margin: 1.5rem 0 0.5rem 0.75rem;
 }
 
-.badge-role-admin { background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-.badge-role-staff { background-color: rgba(20, 184, 166, 0.2); color: #2dd4bf; border: 1px solid rgba(20, 184, 166, 0.3); }
-.badge-role-user { background-color: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
-
-.badge-status-open { background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-.badge-status-closed { background-color: rgba(244, 63, 94, 0.2); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
-.badge-status-completed { background-color: rgba(59, 130, 246, 0.2); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
-.badge-status-approved { background-color: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
-.badge-status-pending { background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-.badge-status-blacklisted { background-color: rgba(244, 63, 94, 0.2); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.3); }
-
-/* Form Inputs */
-.form-control, .form-select {
-    border-radius: 12px !important;
-    background-color: rgba(15, 23, 42, 0.8) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    color: #f8fafc !important;
-    padding: 0.75rem 1rem !important;
+.sidebar-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    color: #94a3b8;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    margin-bottom: 4px;
 }
 
-.form-control::placeholder {
-    color: #64748b !important;
+.sidebar-nav-item:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
 }
 
-.form-control:focus, .form-select:focus {
-    border-color: #14b8a6 !important;
-    box-shadow: 0 0 0 0.25rem rgba(20, 184, 166, 0.25) !important;
+.sidebar-nav-item.active {
+    background: #0d6efd;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
 }
 
-/* Glowing Buttons */
-.btn-primary-custom, .btn-primary {
-    background: linear-gradient(135deg, #0d9488 0%, #0284c7 100%) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 12px !important;
-    padding: 0.7rem 1.4rem !important;
-    font-weight: 700 !important;
-    transition: all 0.3s ease !important;
-    box-shadow: 0 4px 15px rgba(13, 148, 136, 0.3);
+.sidebar-promo-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.25rem;
+    text-align: center;
 }
 
-.btn-primary-custom:hover, .btn-primary:hover {
-    background: linear-gradient(135deg, #0f766e 0%, #0369a1 100%) !important;
-    box-shadow: 0 0 25px rgba(20, 184, 166, 0.5) !important;
-    transform: translateY(-1px);
+.dashboard-main {
+    flex: 1;
+    background: #f8fafc;
+    padding: 2rem;
+    overflow-y: auto;
 }
 
-.btn-accent {
-    background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 12px !important;
-    font-weight: 700 !important;
-}
+/* Stat Cards in Image 5 */
+.stat-card-blue { background: #eff6ff; border: 1px solid #dbeafe; }
+.stat-card-green { background: #f0fdf4; border: 1px solid #dcfce7; }
+.stat-card-yellow { background: #fefce8; border: 1px solid #fef9c3; }
+.stat-card-purple { background: #faf5ff; border: 1px solid #f3e8ff; }
 
-/* Glass Tables */
-.table-custom, .table {
-    color: #f8fafc !important;
-    vertical-align: middle;
-}
+.stat-icon-blue { background: #dbeafe; color: #2563eb; }
+.stat-icon-green { background: #dcfce7; color: #16a34a; }
+.stat-icon-yellow { background: #fef9c3; color: #ca8a04; }
+.stat-icon-purple { background: #f3e8ff; color: #9333ea; }
 
-.table-custom thead th, .table thead th {
-    background-color: rgba(15, 23, 42, 0.9) !important;
-    color: #94a3b8 !important;
-    font-weight: 700 !important;
-    font-size: 0.8rem !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-}
+.badge-difficulty-easy { background: #dcfce7; color: #15803d; font-weight: 700; }
+.badge-difficulty-moderate { background: #dbeafe; color: #1d4ed8; font-weight: 700; }
+.badge-difficulty-difficult { background: #ffedd5; color: #c2410c; font-weight: 700; }
 
-.table tbody tr {
-    background-color: transparent !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
-}
-
-.table tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-}
-
-/* Dark Modals */
-.modal-content {
-    background: rgba(30, 41, 59, 0.95) !important;
-    backdrop-filter: blur(20px) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-radius: 24px !important;
-    color: white !important;
-}
-
-.modal-header, .modal-footer {
-    border-color: rgba(255, 255, 255, 0.1) !important;
-}
-
-/* Footer */
-footer {
-    background: rgba(15, 23, 42, 0.85) !important;
-    backdrop-filter: blur(12px);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    color: #64748b !important;
+.trek-table-thumb {
+    width: 60px;
+    height: 42px;
+    border-radius: 8px;
+    object-fit: cover;
 }

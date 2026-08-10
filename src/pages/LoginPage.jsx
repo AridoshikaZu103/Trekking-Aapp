@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mountain, LogIn, Lock, User, Sparkles, Key } from 'lucide-react';
+import { Mountain, LogIn, Lock, User, ShieldCheck, Compass, Sparkles } from 'lucide-react';
 
 export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
   const [username, setUsername] = useState('');
@@ -13,40 +13,85 @@ export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
     setLoading(false);
   };
 
-  const handleFillAdmin = () => {
-    setUsername('admin');
-    setPassword('adminpassword');
-  };
-
   return (
-    <div className="max-w-md mx-auto my-12 px-4">
-      <div className="glass-panel rounded-3xl p-8 shadow-2xl relative overflow-hidden">
-        {/* Decorative background glow */}
-        <div className="absolute -top-24 -left-24 w-48 h-48 bg-teal-500/20 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-blue-500/20 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen flex bg-[#071939]">
+      {/* Left Split Hero (Image 5 Left) */}
+      <div className="hidden lg:flex flex-1 flex-col justify-between p-14 relative bg-cover bg-center" style={{ backgroundImage: `linear-gradient(135deg, rgba(7, 25, 57, 0.88), rgba(2, 44, 94, 0.78)), url('/static/images/trekker_hero_bg.png')` }}>
+        <div className="flex items-center gap-3 text-2xl font-black text-white">
+          <Mountain className="w-8 h-8 text-blue-400" />
+          <span>TrekOps</span>
+        </div>
 
-        <div className="text-center mb-8 relative z-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-teal-500 to-blue-600 shadow-xl shadow-teal-500/20 mb-4">
-            <Mountain className="w-9 h-9 text-white" />
+        <div className="max-w-lg">
+          <h1 className="text-5xl font-black text-white leading-tight mb-4">
+            Explore the <span className="text-sky-400">World</span>.<br />
+            Trek with <span className="text-blue-500">Purpose</span>.
+          </h1>
+          <p className="text-slate-300 text-lg mb-10">
+            Manage treks, bookings, teams and adventures seamlessly.
+          </p>
+
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
+                <Mountain className="w-5 h-5 text-sky-400" />
+              </div>
+              <div>
+                <div className="font-bold text-white">Discover</div>
+                <div className="text-xs text-slate-300">Amazing trek destinations</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
+                <User className="w-5 h-5 text-blue-400" />
+              </div>
+              <div>
+                <div className="font-bold text-white">Manage</div>
+                <div className="text-xs text-slate-300">Teams, staff & bookings</div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white">
+                <ShieldCheck className="w-5 h-5 text-emerald-400" />
+              </div>
+              <div>
+                <div className="font-bold text-white">Secure</div>
+                <div className="text-xs text-slate-300">Safe & reliable platform</div>
+              </div>
+            </div>
           </div>
-          <h2 className="text-2xl font-extrabold text-white tracking-tight">Welcome Back</h2>
-          <p className="text-sm text-slate-400 mt-1">Sign in to manage & explore trekking expeditions</p>
+        </div>
+
+        <div className="text-xs text-slate-400">
+          © 2026 TrekOps Management Application V1. Built for MAD-1 Project.
+        </div>
+      </div>
+
+      {/* Right Form (Image 5 Right) */}
+      <div className="w-full lg:w-[480px] bg-white p-10 sm:p-14 flex flex-col justify-center">
+        <div className="text-center mb-8">
+          <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-4">
+            <Mountain className="w-8 h-8" />
+          </div>
+          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Welcome Back</h2>
+          <p className="text-sm text-slate-500 mt-1">Sign in to manage your treks or bookings</p>
         </div>
 
         {errorMsg && (
-          <div className="mb-6 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-sm flex items-center gap-3">
-            <span className="w-2 h-2 rounded-full bg-rose-500 animate-ping" />
-            <span>{errorMsg}</span>
+          <div className="mb-6 p-4 rounded-xl bg-rose-50 text-rose-600 text-sm font-semibold border border-rose-100">
+            {errorMsg}
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
               Username
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <User className="w-5 h-5" />
               </div>
               <input
@@ -54,18 +99,18 @@ export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
                 required
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter your username"
-                className="w-full pl-11 pr-4 py-3 bg-slate-900/80 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all text-sm"
+                placeholder="Enter username"
+                className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-blue-600 focus:outline-none"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300 mb-2">
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
               Password
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                 <Lock className="w-5 h-5" />
               </div>
               <input
@@ -74,7 +119,7 @@ export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter password"
-                className="w-full pl-11 pr-4 py-3 bg-slate-900/80 border border-slate-700/80 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 transition-all text-sm"
+                className="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 text-sm focus:bg-white focus:border-blue-600 focus:outline-none"
               />
             </div>
           </div>
@@ -82,43 +127,30 @@ export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 btn-gradient rounded-xl font-semibold text-white shadow-lg flex items-center justify-center gap-2 hover:opacity-95 transition-all text-sm disabled:opacity-50"
+            className="w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 rounded-xl font-bold text-white shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 text-sm transition-all"
           >
-            {loading ? (
-              <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            ) : (
-              <>
-                <LogIn className="w-4 h-4" />
-                <span>Sign In</span>
-              </>
-            )}
+            <LogIn className="w-4 h-4" />
+            <span>Sign In</span>
           </button>
         </form>
 
-        {/* Admin Preset Quick Helper */}
-        <div className="mt-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 text-xs text-slate-300 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Key className="w-4 h-4 text-amber-400 shrink-0" />
-            <div>
-              <span className="font-semibold text-amber-300">Quick Test Admin:</span>
-              <span className="block text-slate-400 font-mono text-[11px]">admin / adminpassword</span>
-            </div>
+        <div className="mt-8 p-4 rounded-2xl bg-blue-50/80 border border-blue-100 text-xs text-slate-600">
+          <div className="flex items-center gap-2 text-blue-700 font-bold mb-1">
+            <Sparkles className="w-4 h-4" />
+            <span>Default Admin Credentials:</span>
           </div>
-          <button
-            onClick={handleFillAdmin}
-            className="px-2.5 py-1 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-medium transition-all"
-          >
-            Fill
-          </button>
+          <div className="font-mono text-slate-500">
+            Username: <span className="font-bold text-slate-800">admin</span> | Password: <span className="font-bold text-slate-800">adminpassword</span>
+          </div>
         </div>
 
-        <div className="mt-6 text-center text-xs text-slate-400">
+        <div className="mt-8 text-center text-xs text-slate-500">
           Don't have an account?{' '}
           <button
             onClick={onNavigateRegister}
-            className="text-teal-400 hover:text-teal-300 font-semibold underline underline-offset-4 transition-all"
+            className="text-blue-600 hover:underline font-bold"
           >
-            Register Here
+            Register here
           </button>
         </div>
       </div>
