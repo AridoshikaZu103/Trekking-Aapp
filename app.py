@@ -8,18 +8,23 @@ from controllers.staff_routes import staff_bp
 from controllers.user_routes import user_bp
 from controllers.api_routes import api_bp
 
-# Configure Flask app to serve built React static files if dist folder exists
-dist_folder = os.path.join(os.path.dirname(__file__), 'dist')
-if os.path.exists(dist_folder):
-    app = Flask(__name__, static_folder=dist_folder, static_url_path='')
+# Top-level unconditionally defined Flask app instance for Vercel discovery
+app = Flask(__name__, template_folder='templates', static_folder='static')
+application = app
+handler = app
+
+# Database path for Vercel serverless (/tmp) vs Local
+if os.environ.get('VERCEL'):
+    db_path = '/tmp/trekking.db'
 else:
-    app = Flask(__name__)
+    db_path = os.path.join(os.path.dirname(__file__), 'instance', 'trekking.db')
+    os.makedirs(os.path.dirname(db_path), exist_ok=True)
 
 app.config['SECRET_KEY'] = 'mad1-trekking-app-secret-key-2026'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///trekking.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_path}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Enable basic CORS headers for local Vite dev server
+# Enable CORS headers
 @app.after_request
 def add_cors_headers(response):
     response.headers['Access-Control-Allow-Origin'] = request.headers.get('Origin', '*')
@@ -55,11 +60,6 @@ def index():
             return redirect(url_for('staff.dashboard'))
         else:
             return redirect(url_for('user.dashboard'))
-    
-    dist_index = os.path.join(dist_folder, 'index.html')
-    if os.path.exists(dist_index):
-        return send_from_directory(dist_folder, 'index.html')
-    
     return redirect(url_for('login'))
 
 # Login Route
@@ -87,10 +87,6 @@ def login():
             return redirect(url_for('index'))
         else:
             flash('Invalid username or password. Please try again.', 'danger')
-
-    dist_index = os.path.join(dist_folder, 'index.html')
-    if os.path.exists(dist_index):
-        return send_from_directory(dist_folder, 'index.html')
 
     return render_template('login.html')
 
@@ -137,10 +133,6 @@ def register():
             flash('Registration successful! You can now log in.', 'success')
 
         return redirect(url_for('login'))
-
-    dist_index = os.path.join(dist_folder, 'index.html')
-    if os.path.exists(dist_index):
-        return send_from_directory(dist_folder, 'index.html')
 
     return render_template('register.html')
 
@@ -200,7 +192,10 @@ def init_db():
 
         db.session.commit()
 
-init_db()
+try:
+    init_db()
+except Exception as e:
+    print('init_db notice:', e)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
