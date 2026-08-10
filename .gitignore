@@ -41,10 +41,3 @@ Thumbs.db
 
 # Distribution / packaging
 *.egg-info/
-
-dist/
-build/
-
-# Node dependencies
-node_modules/
-
