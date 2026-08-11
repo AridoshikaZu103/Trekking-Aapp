@@ -8,12 +8,6 @@ api_bp = Blueprint('api', __name__, url_prefix='/api')
 # --- AUTH ENDPOINTS ---
 
 @api_bp.route('/me', methods=['GET'])
-def get_current_user():
-    if current_user.is_authenticated:
-        return jsonify({'status': 'success', 'user': current_user.to_dict()}), 200
-    return jsonify({'status': 'error', 'message': 'Not logged in'}), 401
-
-@api_bp.route('/me', methods=['GET'])
 def api_me():
     if current_user.is_authenticated:
         return jsonify({'status': 'success', 'user': current_user.to_dict()}), 200

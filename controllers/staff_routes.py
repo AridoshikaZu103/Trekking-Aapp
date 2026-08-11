@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, send_from_directory, os, current_app
+import os
+from flask import Blueprint, jsonify, send_from_directory, current_app
 
 staff_bp = Blueprint('staff', __name__)
 

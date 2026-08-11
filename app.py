@@ -9,14 +9,11 @@ from controllers.user_routes import user_bp
 from controllers.api_routes import api_bp
 
 # Configure Flask app to serve built React static files from frontend/dist
-dist_folder = os.path.join(os.path.dirname(__file__), 'frontend', 'dist')
+dist_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), 'frontend', 'dist'))
 if not os.path.exists(dist_folder):
-    dist_folder = os.path.join(os.path.dirname(__file__), 'dist')
+    dist_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), 'dist'))
 
-if os.path.exists(dist_folder):
-    app = Flask(__name__, static_folder=dist_folder, static_url_path='')
-else:
-    app = Flask(__name__)
+app = Flask(__name__, static_folder=dist_folder, static_url_path='')
 application = app
 handler = app
 

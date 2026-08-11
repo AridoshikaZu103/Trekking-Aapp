@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, redirect, request, send_from_directory, os, current_app
+import os
+from flask import Blueprint, jsonify, redirect, request, send_from_directory, current_app
 from models import db
 from models.models import User, Trek, Booking, StaffAssignment
 
@@ -6,7 +7,6 @@ admin_bp = Blueprint('admin', __name__)
 
 @admin_bp.route('/admin/dashboard')
 def dashboard():
-    # Return SPA index.html or delegate to static folder to prevent render_template errors
     static_folder = current_app.static_folder
     if static_folder and os.path.exists(os.path.join(static_folder, 'index.html')):
         return send_from_directory(static_folder, 'index.html')
