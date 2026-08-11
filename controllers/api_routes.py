@@ -13,6 +13,12 @@ def get_current_user():
         return jsonify({'status': 'success', 'user': current_user.to_dict()}), 200
     return jsonify({'status': 'error', 'message': 'Not logged in'}), 401
 
+@api_bp.route('/me', methods=['GET'])
+def api_me():
+    if current_user.is_authenticated:
+        return jsonify({'status': 'success', 'user': current_user.to_dict()}), 200
+    return jsonify({'status': 'guest', 'user': None}), 200
+
 @api_bp.route('/login', methods=['POST'])
 def api_login():
     data = request.get_json() or {}

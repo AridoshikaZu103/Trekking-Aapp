@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mountain, LogIn, Lock, User, ShieldCheck, Compass, Sparkles } from 'lucide-react';
+import trekkerHeroBg from '../assets/trekker_hero_bg.png';
 
 export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
   const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
   return (
     <div className="min-h-screen flex bg-[#071939]">
       {/* Left Split Hero (Image 5 Left) */}
-      <div className="hidden lg:flex flex-1 flex-col justify-between p-14 relative bg-cover bg-center" style={{ backgroundImage: `linear-gradient(135deg, rgba(7, 25, 57, 0.88), rgba(2, 44, 94, 0.78)), url('/static/images/trekker_hero_bg.png')` }}>
+      <div className="hidden lg:flex flex-1 flex-col justify-between p-14 relative bg-cover bg-center" style={{ backgroundImage: `linear-gradient(135deg, rgba(7, 25, 57, 0.88), rgba(2, 44, 94, 0.78)), url('${trekkerHeroBg}')` }}>
         <div className="flex items-center gap-3 text-2xl font-black text-white">
           <Mountain className="w-8 h-8 text-blue-400" />
           <span>TrekOps</span>
