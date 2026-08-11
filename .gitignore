@@ -1,9 +1,7 @@
 # .gitignore for Trekking Management App V1
 
-# Node.js & React build
+# Node.js dependencies
 node_modules/
-dist/
-build/
 .env
 .env.local
 .env.*.local
