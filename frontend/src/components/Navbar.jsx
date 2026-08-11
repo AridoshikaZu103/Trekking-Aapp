@@ -38,9 +38,6 @@ export default function Navbar({ currentUser, onLogout }) {
               <span className="text-xl font-bold bg-gradient-to-r from-white via-slate-200 to-teal-400 bg-clip-text text-transparent">
                 TrekOps
               </span>
-              <span className="ml-2 text-xs font-medium px-2 py-0.5 rounded bg-teal-950 text-teal-300 border border-teal-800/50">
-                v1.0 React
-              </span>
             </div>
           </div>
 
