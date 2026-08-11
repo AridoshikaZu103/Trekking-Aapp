@@ -8,8 +8,15 @@ from controllers.staff_routes import staff_bp
 from controllers.user_routes import user_bp
 from controllers.api_routes import api_bp
 
-# Top-level unconditionally defined Flask app instance for Vercel discovery
-app = Flask(__name__, template_folder='templates', static_folder='static')
+# Configure Flask app to serve built React static files from frontend/dist
+dist_folder = os.path.join(os.path.dirname(__file__), 'frontend', 'dist')
+if not os.path.exists(dist_folder):
+    dist_folder = os.path.join(os.path.dirname(__file__), 'dist')
+
+if os.path.exists(dist_folder):
+    app = Flask(__name__, static_folder=dist_folder, static_url_path='')
+else:
+    app = Flask(__name__)
 application = app
 handler = app
 
@@ -51,16 +58,14 @@ app.register_blueprint(user_bp)
 app.register_blueprint(api_bp)
 
 # Root / SPA fallback route
-@app.route('/', endpoint='index')
-def index():
-    if current_user.is_authenticated:
-        if current_user.role == 'admin':
-            return redirect(url_for('admin.dashboard'))
-        elif current_user.role == 'staff':
-            return redirect(url_for('staff.dashboard'))
-        else:
-            return redirect(url_for('user.dashboard'))
-    return redirect(url_for('login'))
+@app.route('/', defaults={'path': ''}, endpoint='index')
+@app.route('/<path:path>')
+def serve_spa(path):
+    if path and app.static_folder and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    if app.static_folder and os.path.exists(os.path.join(app.static_folder, 'index.html')):
+        return send_from_directory(app.static_folder, 'index.html')
+    return jsonify({'status': 'online', 'message': 'TrekOps REST API is running'}), 200
 
 # Login Route
 @app.route('/login', methods=['GET', 'POST'])
