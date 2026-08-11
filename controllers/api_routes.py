@@ -188,7 +188,8 @@ def get_admin_users():
     users = User.query.all()
     return jsonify({'status': 'success', 'users': [u.to_dict() for u in users]}), 200
 
-@api_bp.route('/admin/users/status/<int:user_id>', methods=['POST'])
+@api_bp.route('/admin/users/status/<int:user_id>', methods=['POST', 'PUT'])
+@api_bp.route('/admin/users/status/<int:user_id>/', methods=['POST', 'PUT'])
 def update_user_status(user_id):
     data = request.get_json() or {}
     new_status = data.get('status')
