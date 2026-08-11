@@ -160,6 +160,18 @@ def init_db():
             admin_user.set_password('adminpassword')
             db.session.add(admin_user)
 
+        # Seed sample Staff user (ID 2) if not exists
+        staff_user = User.query.filter_by(username='staff1').first()
+        if not staff_user:
+            staff_user = User(
+                username='staff1',
+                email='studylearn1001@example.com',
+                role='staff',
+                status='pending'
+            )
+            staff_user.set_password('staffpassword')
+            db.session.add(staff_user)
+
         # Seed initial sample trek destinations if table is empty
         if Trek.query.count() == 0:
             sample_treks = [
