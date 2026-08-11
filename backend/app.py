@@ -1,6 +1,13 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, flash, send_from_directory, jsonify
-from flask_login import LoginManager, login_user, logout_user, login_required, current_user
+import sys
+
+# Ensure backend directory is in sys.path
+backend_dir = os.path.dirname(os.path.abspath(__file__))
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
+
+from flask import Flask, jsonify, send_from_directory, request
+from flask_login import LoginManager, current_user
 from models import db
 from models.models import User, Trek, Booking, StaffAssignment
 from controllers.admin_routes import admin_bp
@@ -8,16 +15,20 @@ from controllers.staff_routes import staff_bp
 from controllers.user_routes import user_bp
 from controllers.api_routes import api_bp
 
-# Top-level unconditionally defined Flask app instance for Vercel discovery
-app = Flask(__name__)
+# Configure Flask app to serve React dist SPA
+dist_folder = os.path.abspath(os.path.join(backend_dir, '..', 'frontend', 'dist'))
+if not os.path.exists(dist_folder):
+    dist_folder = os.path.abspath(os.path.join(backend_dir, 'dist'))
+
+app = Flask(__name__, static_folder=dist_folder, static_url_path='')
 application = app
 handler = app
 
-# Handle SQLite path for Vercel serverless (/tmp) vs Local
+# SQLite Database configuration
 if os.environ.get('VERCEL'):
     db_path = '/tmp/trekking.db'
 else:
-    db_path = os.path.join(os.path.dirname(__file__), 'instance', 'trekking.db')
+    db_path = os.path.join(backend_dir, 'instance', 'trekking.db')
     os.makedirs(os.path.dirname(db_path), exist_ok=True)
 
 app.config['SECRET_KEY'] = 'mad1-trekking-app-secret-key-2026'
@@ -51,104 +62,22 @@ app.register_blueprint(user_bp)
 app.register_blueprint(api_bp)
 
 # Root / SPA fallback route
-@app.route('/', endpoint='index')
-def index():
-    if current_user.is_authenticated:
-        if current_user.role == 'admin':
-            return redirect(url_for('admin.dashboard'))
-        elif current_user.role == 'staff':
-            return redirect(url_for('staff.dashboard'))
-        else:
-            return redirect(url_for('user.dashboard'))
-    return redirect(url_for('login'))
+@app.route('/', defaults={'path': ''}, endpoint='index')
+@app.route('/login')
+@app.route('/register')
+@app.route('/<path:path>')
+def serve_spa(path=''):
+    if path and app.static_folder and os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    if app.static_folder and os.path.exists(os.path.join(app.static_folder, 'index.html')):
+        return send_from_directory(app.static_folder, 'index.html')
+    return jsonify({'status': 'online', 'message': 'TrekOps REST API is running'}), 200
 
-# Login Route
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-
-    if request.method == 'POST':
-        username = request.form.get('username', '').strip()
-        password = request.form.get('password', '')
-
-        user = User.query.filter_by(username=username).first()
-
-        if user and user.check_password(password):
-            if user.status == 'pending':
-                flash('Your staff registration is currently pending administrator approval.', 'warning')
-                return render_template('login.html')
-            elif user.status == 'blacklisted':
-                flash('Your account has been blacklisted. Access denied.', 'danger')
-                return render_template('login.html')
-
-            login_user(user)
-            flash(f'Welcome back, {user.username}!', 'success')
-            return redirect(url_for('index'))
-        else:
-            flash('Invalid username or password. Please try again.', 'danger')
-
-    return render_template('login.html')
-
-# Register Route
-@app.route('/register', methods=['GET', 'POST'])
-def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
-
-    if request.method == 'POST':
-        username = request.form.get('username', '').strip()
-        email = request.form.get('email', '').strip()
-        password = request.form.get('password', '')
-        role = request.form.get('role', 'user')
-
-        if not username or not email or not password:
-            flash('All fields are required.', 'warning')
-            return render_template('register.html')
-
-        if User.query.filter_by(username=username).first():
-            flash('Username already exists. Please choose a different one.', 'warning')
-            return render_template('register.html')
-
-        if User.query.filter_by(email=email).first():
-            flash('Email already registered. Please login or use a different email.', 'warning')
-            return render_template('register.html')
-
-        status = 'pending' if role == 'staff' else 'approved'
-
-        new_user = User(
-            username=username,
-            email=email,
-            role=role,
-            status=status
-        )
-        new_user.set_password(password)
-
-        db.session.add(new_user)
-        db.session.commit()
-
-        if role == 'staff':
-            flash('Staff registration submitted successfully! Please await Admin approval before logging in.', 'info')
-        else:
-            flash('Registration successful! You can now log in.', 'success')
-
-        return redirect(url_for('login'))
-
-    return render_template('register.html')
-
-# Logout Route
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash('You have been logged out.', 'info')
-    return redirect(url_for('login'))
-
-# Database initialization and default admin seeding
+# Database initialization and default user seeding
 def init_db():
     with app.app_context():
         db.create_all()
-        # Seed default Admin user if not exists
+        # Seed Admin user
         admin_user = User.query.filter_by(username='admin').first()
         if not admin_user:
             admin_user = User(
@@ -160,39 +89,54 @@ def init_db():
             admin_user.set_password('adminpassword')
             db.session.add(admin_user)
 
-        # Seed initial sample trek destinations if table is empty
+        # Seed Staff user (ID 2)
+        staff_user = User.query.filter_by(username='staff1').first()
+        if not staff_user:
+            staff_user = User(
+                username='staff1',
+                email='studylearn1001@example.com',
+                role='staff',
+                status='pending'
+            )
+            staff_user.set_password('staffpassword')
+            db.session.add(staff_user)
+
+        # Seed Indian Trek Destinations if empty
         if Trek.query.count() == 0:
             sample_treks = [
                 Trek(
-                    title='Valley of Flowers Trek',
-                    location='Uttarakhand, India',
-                    price=250.00,
-                    capacity=12,
+                    title='Hampta Pass Trek',
+                    location='Manali, Himachal Pradesh, India',
+                    price=14500.00,
+                    capacity=20,
                     status='open',
-                    description='A vibrant alpine valley surrounded by snow-capped peaks and rare flora.'
+                    description='Dramatic crossover trek from lush Kullu valley to arid Spiti landscape.'
                 ),
                 Trek(
-                    title='Kedarkantha Summit Trek',
-                    location='Uttarakhand, India',
-                    price=320.00,
+                    title='Kashmir Great Lakes',
+                    location='Sonamarg, Kashmir, India',
+                    price=18200.00,
                     capacity=15,
                     status='open',
-                    description='Classic winter snow trek featuring 360-degree Himalayan panorama views.'
+                    description='Alpine turquoise lakes nestled between high mountain passes and rolling meadows.'
                 ),
                 Trek(
-                    title='Roopkund Mystery Lake Trek',
-                    location='Himalayas, India',
-                    price=450.00,
-                    capacity=10,
-                    status='closed',
-                    description='High altitude glacial lake trek known for its mysterious history and meadows.'
+                    title='Kedarkantha Winter Trek',
+                    location='Uttarkashi, Uttarakhand, India',
+                    price=10500.00,
+                    capacity=25,
+                    status='open',
+                    description='Popular Himalayan winter snow trek with a 360-degree summit sunrise view.'
                 )
             ]
             db.session.add_all(sample_treks)
 
         db.session.commit()
 
-init_db()
+try:
+    init_db()
+except Exception as e:
+    print('init_db notice:', e)
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
