@@ -63,8 +63,6 @@ app.register_blueprint(api_bp)
 
 # Root / SPA fallback route
 @app.route('/', defaults={'path': ''}, endpoint='index')
-@app.route('/login')
-@app.route('/register')
 @app.route('/<path:path>')
 def serve_spa(path=''):
     if path and app.static_folder and os.path.exists(os.path.join(app.static_folder, path)):
