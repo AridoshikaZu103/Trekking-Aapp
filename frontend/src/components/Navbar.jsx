@@ -29,18 +29,14 @@ export default function Navbar({ currentUser, onLogout, onOpenTutorial }) {
     <header className="sticky top-0 z-50 glass-panel border-b border-slate-800/80 mb-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo & Live Status */}
+          {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-500 to-blue-600 flex items-center justify-center shadow-lg shadow-teal-500/20">
               <Mountain className="w-6 h-6 text-white" />
             </div>
-            <div className="flex items-center gap-2.5">
+            <div>
               <span className="text-xl font-bold bg-gradient-to-r from-white via-slate-200 to-teal-400 bg-clip-text text-transparent">
                 TrekOps
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-extrabold tracking-wider uppercase">
-                <span className="live-radar-dot" />
-                <span>Live</span>
               </span>
             </div>
           </div>
