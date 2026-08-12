@@ -556,6 +556,109 @@ body {
     animation: scaleUp 0.3s ease-out forwards;
 }
 
+/* 3D Floating Loop Animation */
+@keyframes float3D {
+    0%, 100% {
+        transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+    }
+}
+
+.animate-float-3d {
+    animation: float3D 6s ease-in-out infinite;
+    transform-style: preserve-3d;
+}
+
+/* Neon Border Loop Pulse */
+@keyframes neonBorderPulse {
+    0%, 100% {
+        border-color: rgba(20, 184, 166, 0.4);
+        box-shadow: 0 0 15px rgba(20, 184, 166, 0.2);
+    }
+    33% {
+        border-color: rgba(59, 130, 246, 0.5);
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+    }
+    66% {
+        border-color: rgba(245, 158, 11, 0.4);
+        box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+    }
+}
+
+.neon-border-loop {
+    animation: neonBorderPulse 5s ease-in-out infinite;
+}
+
+/* Live Ripple Radar Pulse */
+@keyframes ripplePulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+    }
+}
+
+.live-ripple-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #10b981;
+    border-radius: 50%;
+    animation: ripplePulse 2s infinite;
+}
+
+/* Light Beam Sweep Across Card */
+@keyframes beamSweep {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.card-light-beam {
+    position: relative;
+    overflow: hidden;
+}
+
+.card-light-beam::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.08) 50%, transparent 60%);
+    background-size: 200% 100%;
+    animation: beamSweep 4s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* 3D Push Button Effect */
+.btn-3d {
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 0 rgba(13, 110, 253, 0.8), 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.btn-3d:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 rgba(13, 110, 253, 0.9), 0 12px 25px rgba(0, 0, 0, 0.4);
+}
+
+.btn-3d:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 rgba(13, 110, 253, 1), 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
 /* Shimmer loading effect */
 @keyframes shimmer {
     0% { background-position: -200% 0; }
