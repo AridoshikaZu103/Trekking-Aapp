@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
+import TutorialModal from './components/TutorialModal';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AdminDashboard from './pages/AdminDashboard';
@@ -10,6 +11,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [authView, setAuthView] = useState('login'); // 'login' | 'register'
   const [errorMsg, setErrorMsg] = useState('');
+  const [isTutorialOpen, setIsTutorialOpen] = useState(false);
 
   // Data states
   const [treks, setTreks] = useState([]);
@@ -273,7 +275,17 @@ export default function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <Navbar currentUser={currentUser} onLogout={handleLogout} />
+      <Navbar
+        currentUser={currentUser}
+        onLogout={handleLogout}
+        onOpenTutorial={() => setIsTutorialOpen(true)}
+      />
+
+      <TutorialModal
+        isOpen={isTutorialOpen}
+        onClose={() => setIsTutorialOpen(false)}
+        onQuickLogin={handleLogin}
+      />
 
       <main className="flex-1">
         {!currentUser ? (

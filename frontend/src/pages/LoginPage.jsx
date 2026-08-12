@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mountain, LogIn, Lock, User, ShieldCheck, Compass, Sparkles } from 'lucide-react';
+import { Mountain, LogIn, Lock, User, ShieldCheck, Compass, Sparkles, Lightbulb } from 'lucide-react';
 
 const trekkerHeroBg = '/trekker_hero_bg.png';
 
