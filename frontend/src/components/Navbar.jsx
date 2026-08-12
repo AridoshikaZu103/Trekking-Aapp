@@ -60,7 +60,7 @@ export default function Navbar({ currentUser, onLogout, onOpenTutorial }) {
 
             {/* 💼 LinkedIn Button */}
             <a
-              href="https://www.linkedin.com"
+              href="https://www.linkedin.com/posts/sooraj-sangam-167360427_fullstackdevelopment-reactjs-python-ugcPost-7493299736033251329-mtU9/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAGwVut8B7JPCqwIGsKghbnfhDHQfwyZehO0"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-lg shadow-blue-500/10 transition-all group"
