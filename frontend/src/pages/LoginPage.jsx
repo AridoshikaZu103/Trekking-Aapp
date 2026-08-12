@@ -16,12 +16,31 @@ export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#071939]">
+    <div className="min-h-screen flex flex-col lg:flex-row mobile-hero-bg lg:bg-[#071939] items-center justify-center p-4 sm:p-6 lg:p-0">
       {/* Left Split Hero (Image 5 Left) */}
-      <div className="hidden lg:flex flex-1 flex-col justify-between p-14 relative bg-cover bg-center" style={{ backgroundImage: `linear-gradient(135deg, rgba(7, 25, 57, 0.88), rgba(2, 44, 94, 0.78)), url('${trekkerHeroBg}')` }}>
-        <div className="flex items-center gap-3 text-2xl font-black text-white">
-          <Mountain className="w-8 h-8 text-blue-400" />
-          <span>TrekOps</span>
+      <div className="hidden lg:flex flex-1 flex-col justify-between p-14 relative bg-cover bg-center h-full min-h-screen" style={{ backgroundImage: `linear-gradient(135deg, rgba(7, 25, 57, 0.88), rgba(2, 44, 94, 0.78)), url('${trekkerHeroBg}')` }}>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3 text-2xl font-black text-white">
+            <Mountain className="w-8 h-8 text-blue-400" />
+            <span>TrekOps</span>
+          </div>
+          <span className="text-xs px-3 py-1 rounded-full bg-teal-500/20 text-teal-300 font-bold border border-teal-500/30 flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" /> 3D Expedition Radar
+          </span>
+        </div>
+
+        {/* 3D Orbit Radar Animation */}
+        <div className="my-6 orbit-perspective">
+          <div className="orbit-stage">
+            <div className="orbit-ring-outer" />
+            <div className="orbit-ring-inner" />
+            <div className="orbit-center-core">
+              <Mountain className="w-6 h-6" />
+            </div>
+            <div className="orbit-node-1">Hampta Pass</div>
+            <div className="orbit-node-2">Kashmir Lakes</div>
+            <div className="orbit-node-3">Kedarkantha</div>
+          </div>
         </div>
 
         <div className="max-w-lg">
@@ -29,7 +48,7 @@ export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
             Explore the <span className="text-sky-400">World</span>.<br />
             Trek with <span className="text-blue-500">Purpose</span>.
           </h1>
-          <p className="text-slate-300 text-lg mb-10">
+          <p className="text-slate-300 text-lg mb-8">
             Manage treks, bookings, teams and adventures seamlessly.
           </p>
 
@@ -71,14 +90,14 @@ export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
         </div>
       </div>
 
-      {/* Right Form (Image 5 Right) */}
-      <div className="w-full lg:w-[480px] bg-white p-10 sm:p-14 flex flex-col justify-center">
+      {/* Right Form (Mobile glassmorphism / Desktop split) */}
+      <div className="w-full max-w-md lg:max-w-none lg:w-[480px] bg-slate-950/90 lg:bg-white p-8 sm:p-12 rounded-3xl lg:rounded-none border border-slate-800 lg:border-none shadow-2xl lg:shadow-none flex flex-col justify-center my-auto">
         <div className="text-center mb-8">
-          <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-4">
+          <div className="w-14 h-14 rounded-2xl bg-blue-500/10 lg:bg-blue-50 text-blue-400 lg:text-blue-600 flex items-center justify-center mx-auto mb-4 border border-blue-500/20 lg:border-none">
             <Mountain className="w-8 h-8" />
           </div>
-          <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">Welcome Back</h2>
-          <p className="text-sm text-slate-500 mt-1">Sign in to manage your treks or bookings</p>
+          <h2 className="text-3xl font-extrabold text-white lg:text-slate-900 tracking-tight">Welcome Back</h2>
+          <p className="text-sm text-slate-400 lg:text-slate-500 mt-1">Sign in to manage your treks or bookings</p>
         </div>
 
         {errorMsg && (
