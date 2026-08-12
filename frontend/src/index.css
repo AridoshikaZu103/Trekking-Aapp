@@ -4,35 +4,89 @@
 @tailwind components;
 @tailwind utilities;
 
-/* TrekOps Full-Stack Tailwind & Glassmorphism Design System */
+/* ============================================================
+   TrekOps — Premium Glassmorphism Design System
+   Source CSS: frontend/src/index.css
+   ============================================================ */
 
+/* --- CSS Custom Properties (Design Tokens) --- */
 :root {
     --primary-blue: #0d6efd;
     --primary-blue-hover: #0b5ed7;
+    --primary-teal: #14b8a6;
+    --primary-teal-hover: #0d9488;
     --sidebar-bg: #071939;
     --sidebar-text: #94a3b8;
     --sidebar-active-bg: #0d6efd;
     --main-bg: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.75);
     --card-border: rgba(255, 255, 255, 0.1);
+    --glass-blur: 16px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+    --shadow-glow-blue: 0 4px 20px rgba(59, 130, 246, 0.25);
+    --shadow-glow-teal: 0 4px 20px rgba(20, 184, 166, 0.25);
+    --shadow-glow-rose: 0 4px 20px rgba(244, 63, 94, 0.2);
+    --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
+/* --- Base Reset & Typography --- */
 * {
     box-sizing: border-box;
 }
 
 body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #0f172a !important;
+    background-color: var(--main-bg) !important;
     color: #f8fafc !important;
     min-height: 100vh;
     margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-/* --- SPLIT-SCREEN LOGIN STYLES --- */
+/* Smooth scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.5);
+}
+
+/* --- Selection --- */
+::selection {
+    background: rgba(20, 184, 166, 0.3);
+    color: #ffffff;
+}
+
+/* --- Focus Ring (Accessibility) --- */
+*:focus-visible {
+    outline: 2px solid var(--primary-teal);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+/* ============================================================
+   SPLIT-SCREEN LOGIN / REGISTER PAGE
+   ============================================================ */
 .login-wrapper {
     min-height: 100vh;
     display: flex;
-    background: #071939;
+    background: var(--sidebar-bg);
 }
 
 .login-hero {
@@ -46,6 +100,23 @@ body {
     flex-direction: column;
     justify-content: space-between;
     color: #ffffff;
+    overflow: hidden;
+}
+
+/* Animated gradient overlay on login hero */
+.login-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(20, 184, 166, 0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 80%, rgba(59, 130, 246, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+.login-hero > * {
+    position: relative;
+    z-index: 1;
 }
 
 .login-hero-brand {
@@ -61,6 +132,7 @@ body {
     font-weight: 900;
     line-height: 1.15;
     margin-bottom: 1rem;
+    letter-spacing: -0.02em;
 }
 
 .login-hero-title span.text-highlight-cyan {
@@ -76,6 +148,7 @@ body {
     color: #cbd5e1;
     margin-bottom: 2.5rem;
     max-width: 480px;
+    line-height: 1.6;
 }
 
 .feature-pill {
@@ -83,6 +156,11 @@ body {
     align-items: center;
     gap: 14px;
     margin-bottom: 1.25rem;
+    transition: transform var(--transition-fast);
+}
+
+.feature-pill:hover {
+    transform: translateX(4px);
 }
 
 .feature-icon-circle {
@@ -91,11 +169,18 @@ body {
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.1rem;
     color: #ffffff;
+    transition: all var(--transition-smooth);
+}
+
+.feature-pill:hover .feature-icon-circle {
+    background: rgba(20, 184, 166, 0.25);
+    box-shadow: 0 0 16px rgba(20, 184, 166, 0.2);
 }
 
 .login-form-container {
@@ -108,39 +193,70 @@ body {
     color: #1e293b;
 }
 
+/* --- Login/Register Form Responsive --- */
+@media (max-width: 1023px) {
+    .login-wrapper {
+        flex-direction: column;
+    }
+    .login-hero {
+        min-height: 35vh;
+        padding: 2rem;
+    }
+    .login-hero-title {
+        font-size: 2rem;
+    }
+    .login-form-container {
+        width: 100%;
+        padding: 2rem;
+    }
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
 .btn-primary-blue {
-    background-color: #0d6efd !important;
+    background-color: var(--primary-blue) !important;
     border: none !important;
-    border-radius: 12px !important;
+    border-radius: var(--radius-md) !important;
     color: #ffffff !important;
     font-weight: 700 !important;
     padding: 0.8rem 1.5rem !important;
     font-size: 1rem !important;
-    transition: all 0.2s ease !important;
+    transition: all var(--transition-smooth) !important;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primary-blue:hover {
-    background-color: #0b5ed7 !important;
-    box-shadow: 0 4px 15px rgba(13, 110, 253, 0.4) !important;
+    background-color: var(--primary-blue-hover) !important;
+    box-shadow: var(--shadow-glow-blue) !important;
+    transform: translateY(-1px);
 }
 
-/* --- DASHBOARD SIDEBAR LAYOUT --- */
+.btn-primary-blue:active {
+    transform: translateY(0);
+}
+
+/* ============================================================
+   DASHBOARD LAYOUT — SIDEBAR + MAIN
+   ============================================================ */
 .dashboard-layout {
     display: flex;
     min-height: 100vh;
-    background-color: #0f172a;
+    background-color: var(--main-bg);
 }
 
 .sidebar {
     width: 260px;
-    background: #071939 !important;
+    background: var(--sidebar-bg) !important;
     color: #ffffff !important;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding: 1.75rem 1.25rem;
     flex-shrink: 0;
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid var(--card-border);
+    transition: width var(--transition-smooth);
 }
 
 .sidebar-brand {
@@ -167,13 +283,14 @@ body {
     align-items: center;
     gap: 12px;
     padding: 0.75rem 1rem;
-    border-radius: 12px;
-    color: #94a3b8 !important;
+    border-radius: var(--radius-md);
+    color: var(--sidebar-text) !important;
     text-decoration: none !important;
     font-weight: 600;
     font-size: 0.9rem;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast);
     margin-bottom: 4px;
+    cursor: pointer;
 }
 
 .sidebar-nav-item:hover {
@@ -182,68 +299,396 @@ body {
 }
 
 .sidebar-nav-item.active {
-    background: #0d6efd !important;
+    background: var(--sidebar-active-bg) !important;
     color: #ffffff !important;
     box-shadow: 0 4px 12px rgba(13, 110, 253, 0.3);
 }
 
 .sidebar-promo-card {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
     padding: 1.25rem;
     text-align: center;
 }
 
 .dashboard-main {
     flex: 1;
-    background: #0f172a !important;
+    background: var(--main-bg) !important;
     color: #f8fafc !important;
     padding: 2rem;
     overflow-y: auto;
 }
 
-/* Glassmorphism Stat Cards */
-.stat-card-blue, .stat-card-green, .stat-card-yellow, .stat-card-purple, .bg-white {
-    background: rgba(30, 41, 59, 0.75) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 20px !important;
-    color: #f8fafc !important;
+/* --- Sidebar Responsive (Mobile) --- */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: auto;
+        flex-direction: row;
+        padding: 0.5rem;
+        z-index: 50;
+        border-right: none;
+        border-top: 1px solid var(--card-border);
+    }
+    .dashboard-main {
+        padding: 1rem;
+        padding-bottom: 5rem;
+    }
 }
 
+/* ============================================================
+   GLASSMORPHISM CARDS
+   ============================================================ */
+.glass-panel {
+    background: var(--card-bg) !important;
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--card-border) !important;
+    border-radius: var(--radius-xl) !important;
+}
+
+.stat-card-blue,
+.stat-card-green,
+.stat-card-yellow,
+.stat-card-purple,
+.bg-white {
+    background: var(--card-bg) !important;
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--card-border) !important;
+    border-radius: var(--radius-xl) !important;
+    color: #f8fafc !important;
+    transition: all var(--transition-smooth);
+}
+
+.stat-card-blue:hover,
+.stat-card-green:hover,
+.stat-card-yellow:hover,
+.stat-card-purple:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card);
+    border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Stat Icon Badges */
 .stat-icon-blue { background: rgba(59, 130, 246, 0.2) !important; color: #60a5fa !important; }
 .stat-icon-green { background: rgba(16, 185, 129, 0.2) !important; color: #34d399 !important; }
 .stat-icon-yellow { background: rgba(245, 158, 11, 0.2) !important; color: #fbbf24 !important; }
 .stat-icon-purple { background: rgba(168, 85, 247, 0.2) !important; color: #c084fc !important; }
 
-.badge-difficulty-easy { background: rgba(16, 185, 129, 0.2); color: #34d399; font-weight: 700; }
-.badge-difficulty-moderate { background: rgba(59, 130, 246, 0.2); color: #60a5fa; font-weight: 700; }
-.badge-difficulty-difficult { background: rgba(244, 63, 94, 0.2); color: #fb7185; font-weight: 700; }
+/* ============================================================
+   TREK DIFFICULTY BADGES
+   ============================================================ */
+.badge-difficulty-easy {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+}
 
+.badge-difficulty-moderate {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+}
+
+.badge-difficulty-difficult {
+    background: rgba(244, 63, 94, 0.2);
+    color: #fb7185;
+    font-weight: 700;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+}
+
+/* ============================================================
+   STATUS BADGES (Open, Closed, Pending, etc.)
+   ============================================================ */
+.badge-status-open {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-status-closed {
+    background: rgba(244, 63, 94, 0.15);
+    color: #fb7185;
+    border: 1px solid rgba(244, 63, 94, 0.3);
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.badge-status-pending {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    font-weight: 700;
+    padding: 0.2rem 0.6rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ============================================================
+   TREK TABLE & THUMBNAILS
+   ============================================================ */
 .trek-table-thumb {
     width: 60px;
     height: 42px;
-    border-radius: 8px;
+    border-radius: var(--radius-sm);
     object-fit: cover;
+    border: 1px solid var(--card-border);
 }
 
-/* Tables */
 .table {
     color: #f8fafc !important;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
 .table th {
     background-color: rgba(15, 23, 42, 0.8) !important;
     color: #94a3b8 !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 1px solid var(--card-border) !important;
     font-size: 0.8rem;
     text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.75rem 1rem;
 }
 
 .table td {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
     background-color: transparent !important;
     color: #f8fafc !important;
+    padding: 0.75rem 1rem;
+    transition: background var(--transition-fast);
+}
+
+.table tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* ============================================================
+   FORM INPUTS — Dark Theme
+   ============================================================ */
+.input-dark {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    color: #f8fafc;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    transition: all var(--transition-fast);
+}
+
+.input-dark:focus {
+    border-color: var(--primary-teal);
+    background: rgba(15, 23, 42, 0.8);
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+    outline: none;
+}
+
+.input-dark::placeholder {
+    color: #64748b;
+}
+
+/* ============================================================
+   ANIMATIONS & KEYFRAMES
+   ============================================================ */
+
+/* Fade-in on mount */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Slide-in from left */
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-in-left {
+    animation: slideInLeft 0.5s ease-out forwards;
+}
+
+/* Slide-in from right */
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.animate-slide-in-right {
+    animation: slideInRight 0.5s ease-out forwards;
+}
+
+/* Scale up */
+@keyframes scaleUp {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.animate-scale-up {
+    animation: scaleUp 0.3s ease-out forwards;
+}
+
+/* Shimmer loading effect */
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.loading-shimmer {
+    background: linear-gradient(90deg, rgba(30, 41, 59, 0.5) 25%, rgba(51, 65, 85, 0.5) 50%, rgba(30, 41, 59, 0.5) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s ease-in-out infinite;
+    border-radius: var(--radius-md);
+}
+
+/* Pulse glow for active indicators */
+@keyframes pulseGlow {
+    0%, 100% { box-shadow: 0 0 4px rgba(20, 184, 166, 0.4); }
+    50% { box-shadow: 0 0 12px rgba(20, 184, 166, 0.6); }
+}
+
+.pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+/* Glassmorphism panels */
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+}
+
+/* Gradient text */
+.text-gradient-teal {
+    background: linear-gradient(135deg, #14b8a6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-blue {
+    background: linear-gradient(135deg, #3b82f6, #6366f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Divider line */
+.divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--card-border), transparent);
+    margin: 1.5rem 0;
+}
+
+/* Notification dot */
+.notification-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f43f5e;
+    box-shadow: 0 0 6px rgba(244, 63, 94, 0.5);
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #64748b;
+}
+
+.empty-state-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(100, 116, 139, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+/* ============================================================
+   RESPONSIVE: TABLET (max-width: 1024px)
+   ============================================================ */
+@media (max-width: 1024px) {
+    .login-hero-title {
+        font-size: 2.5rem;
+    }
+
+    .dashboard-main {
+        padding: 1.5rem;
+    }
+}
+
+/* ============================================================
+   RESPONSIVE: MOBILE (max-width: 640px)
+   ============================================================ */
+@media (max-width: 640px) {
+    .login-hero {
+        padding: 1.5rem;
+    }
+
+    .login-hero-title {
+        font-size: 1.75rem;
+    }
+
+    .login-hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .login-form-container {
+        padding: 1.5rem;
+    }
+
+    .dashboard-main {
+        padding: 1rem;
+    }
+}
+
+/* ============================================================
+   PRINT STYLES
+   ============================================================ */
+@media print {
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+    .sidebar, .login-hero {
+        display: none !important;
+    }
 }
