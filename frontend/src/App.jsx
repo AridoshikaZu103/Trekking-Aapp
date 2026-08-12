@@ -52,7 +52,7 @@ export default function App() {
 
   const fetchTreks = async () => {
     try {
-      const res = await fetch('/api/treks');
+      const res = await fetch('/api/treks?status=all');
       if (res.ok) {
         const data = await res.json();
         setTreks(data.treks || data);
@@ -64,6 +64,7 @@ export default function App() {
 
   const fetchAdminData = async () => {
     try {
+      fetchTreks();
       const [uRes, aRes] = await Promise.all([
         fetch('/api/admin/users'),
         fetch('/api/admin/assignments'),
@@ -83,6 +84,7 @@ export default function App() {
 
   const fetchStaffData = async () => {
     try {
+      fetchTreks();
       const res = await fetch('/api/staff/treks');
       if (res.ok) {
         const data = await res.json();
@@ -95,6 +97,7 @@ export default function App() {
 
   const fetchUserBookings = async () => {
     try {
+      fetchTreks();
       const res = await fetch('/api/user/bookings');
       if (res.ok) {
         const data = await res.json();
