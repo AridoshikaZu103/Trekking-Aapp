@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { UserCheck, MapPin, Users, Activity, CheckCircle, Lock, Compass } from 'lucide-react';
+import './StaffDashboard.css';
 
 export default function StaffDashboard({ assignedTreks, onUpdateTrekStatus }) {
   const [selectedTrek, setSelectedTrek] = useState(null);

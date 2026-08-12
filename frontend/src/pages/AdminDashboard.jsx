@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Shield, Plus, MapPin, DollarSign, Users, CheckCircle, XCircle, Ban, Trash2, Edit3, UserCheck, Layers } from 'lucide-react';
+import './AdminDashboard.css';
 
 export default function AdminDashboard({
   treks,

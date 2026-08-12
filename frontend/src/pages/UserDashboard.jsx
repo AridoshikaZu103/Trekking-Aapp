@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Compass, Search, DollarSign, MapPin, Users, Calendar, CheckCircle2, XCircle, ArrowRight } from 'lucide-react';
+import './UserDashboard.css';
 
 export default function UserDashboard({ treks, bookings, onBookTrek, onCancelBooking }) {
   const [searchTerm, setSearchTerm] = useState('');

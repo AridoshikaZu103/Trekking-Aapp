@@ -1,0 +1,89 @@
+/* ============================================================
+   TrekOps — StaffDashboard Powerful Custom CSS
+   Path: frontend/src/pages/StaffDashboard.css
+   ============================================================ */
+
+.staff-dashboard-wrapper {
+    max-width: 80rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 4rem;
+}
+
+.staff-header-title {
+    font-size: 1.875rem;
+    font-weight: 900;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Status Control Buttons Grid */
+.staff-status-btn-group {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.staff-status-btn {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    border: 1px solid #1e293b;
+    background: rgba(15, 23, 42, 0.8);
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-transform: capitalize;
+}
+
+.staff-status-btn:hover {
+    color: #ffffff;
+    border-color: #334155;
+}
+
+.staff-status-btn-active-open {
+    background: #10b981 !important;
+    color: #020617 !important;
+    border-color: #34d399 !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.staff-status-btn-active-closed {
+    background: #f43f5e !important;
+    color: #ffffff !important;
+    border-color: #fb7185 !important;
+    box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+}
+
+.staff-status-btn-active-completed {
+    background: #3b82f6 !important;
+    color: #ffffff !important;
+    border-color: #60a5fa !important;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+/* Trekker Roster List */
+.staff-roster-list {
+    max-height: 11rem;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+    margin-top: 0.5rem;
+}
+
+.staff-roster-item {
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid #1e293b;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+}
