@@ -7,9 +7,11 @@
     max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 4rem;
+    padding: 2rem 1rem 4rem;
+    background-image: linear-gradient(180deg, rgba(13, 148, 136, 0.15) 0%, rgba(15, 23, 42, 0.95) 100%), url('/staff_hero_bg.png');
+    background-size: cover;
+    background-position: center;
+    border-radius: 2rem;
 }
 
 .staff-header-title {
