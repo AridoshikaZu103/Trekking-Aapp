@@ -6,7 +6,7 @@ export default function StaffDashboard({ assignedTreks, onUpdateTrekStatus }) {
   const [selectedTrek, setSelectedTrek] = useState(null);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div className="staff-dashboard-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-black text-white flex items-center gap-3">

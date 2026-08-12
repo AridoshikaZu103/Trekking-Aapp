@@ -7,11 +7,13 @@
     max-width: 80rem;
     margin-left: auto;
     margin-right: auto;
-    padding: 2rem 1rem 4rem;
-    background-image: linear-gradient(180deg, rgba(13, 148, 136, 0.15) 0%, rgba(15, 23, 42, 0.95) 100%), url('/staff_hero_bg.png');
+    padding: 2.5rem 1.75rem 4rem;
+    background-image: linear-gradient(135deg, rgba(7, 25, 57, 0.72) 0%, rgba(15, 23, 42, 0.78) 100%), url('/staff_hero_bg.png');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     border-radius: 2rem;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
 }
 
 .staff-header-title {

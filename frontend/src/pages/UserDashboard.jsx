@@ -23,7 +23,7 @@ export default function UserDashboard({ treks, bookings, onBookTrek, onCancelBoo
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+    <div className="user-dashboard-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
       {/* Hero Search & Filter Section */}
       <div className="glass-panel p-8 rounded-3xl mb-10 border border-slate-800 relative overflow-hidden">
         <div className="relative z-10 max-w-3xl">
