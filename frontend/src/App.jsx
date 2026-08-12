@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import TutorialModal from './components/TutorialModal';
+import LiveTicker from './components/LiveTicker';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import AdminDashboard from './pages/AdminDashboard';
@@ -280,6 +281,8 @@ export default function App() {
         onLogout={handleLogout}
         onOpenTutorial={() => setIsTutorialOpen(true)}
       />
+
+      {currentUser && <LiveTicker treks={treks} />}
 
       <TutorialModal
         isOpen={isTutorialOpen}

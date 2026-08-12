@@ -590,6 +590,31 @@ body {
     transform-style: preserve-3d;
 }
 
+/* Infinite Marquee Loop Animation */
+@keyframes marqueeScroll {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+    display: inline-flex;
+    animation: marqueeScroll 25s linear infinite;
+}
+
+.animate-marquee:hover {
+    animation-play-state: paused;
+}
+
+/* Slow Continuous Rotation Loop */
+@keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+    animation: spinSlow 12s linear infinite;
+}
+
 /* Neon Border Loop Pulse */
 @keyframes neonBorderPulse {
     0%, 100% {
