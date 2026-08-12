@@ -105,7 +105,8 @@ def init_db():
             db.session.add(staff_user)
 
         # Seed Indian Trek Destinations if empty
-        if Trek.query.count() == 0:
+        if Trek.query.count() < 8:
+            existing_titles = {t.title for t in Trek.query.all()}
             sample_treks = [
                 Trek(
                     title='Hampta Pass Trek',
@@ -130,11 +131,52 @@ def init_db():
                     capacity=25,
                     status='open',
                     description='Popular Himalayan winter snow trek with a 360-degree summit sunrise view.'
+                ),
+                Trek(
+                    title='Valley of Flowers Trek',
+                    location='Chamoli, Uttarakhand, India',
+                    price=12800.00,
+                    capacity=20,
+                    status='open',
+                    description='UNESCO World Heritage site filled with endemic alpine flora and blooming pastures.'
+                ),
+                Trek(
+                    title='Chadar Frozen River Trek',
+                    location='Zanskar, Ladakh, India',
+                    price=28500.00,
+                    capacity=12,
+                    status='open',
+                    description='Extreme winter ice trek walking across the frozen Zanskar River gorge.'
+                ),
+                Trek(
+                    title='Triund & Snowline Trek',
+                    location='Dharamshala, Himachal Pradesh, India',
+                    price=8500.00,
+                    capacity=30,
+                    status='open',
+                    description='Beginner-friendly ridge trek overlooking Dhauladhar snow peaks and Kangra valley.'
+                ),
+                Trek(
+                    title='Har Ki Dun Valley',
+                    location='Govind Park, Uttarakhand, India',
+                    price=13200.00,
+                    capacity=18,
+                    status='open',
+                    description='Ancient cradle of greenery surrounded by Swargarohini glacier peaks.'
+                ),
+                Trek(
+                    title='Brahmatal Ridge Trek',
+                    location='Kathgodam, Uttarakhand, India',
+                    price=11800.00,
+                    capacity=22,
+                    status='open',
+                    description='High-altitude alpine lake trek offering views of Mt. Trishul and Nanda Ghunti.'
                 )
             ]
-            db.session.add_all(sample_treks)
-
-        db.session.commit()
+            for trek in sample_treks:
+                if trek.title not in existing_titles:
+                    db.session.add(trek)
+            db.session.commit()
 
 try:
     init_db()
