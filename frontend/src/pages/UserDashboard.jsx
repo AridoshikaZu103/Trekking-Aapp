@@ -3,7 +3,7 @@ import { Compass, Search, DollarSign, MapPin, Users, Calendar, CheckCircle2, XCi
 
 export default function UserDashboard({ treks, bookings, onBookTrek, onCancelBooking }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [maxPrice, setMaxPrice] = useState(10000);
+  const [maxPrice, setMaxPrice] = useState(50000);
   const [bookingLoading, setBookingLoading] = useState(null);
 
   // Filter open treks based on search term & max price
@@ -57,9 +57,9 @@ export default function UserDashboard({ treks, bookings, onBookTrek, onCancelBoo
               </div>
               <input
                 type="range"
-                min="100"
-                max="10000"
-                step="100"
+                min="1000"
+                max="50000"
+                step="500"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(Number(e.target.value))}
                 className="w-full accent-teal-500 cursor-pointer h-1.5 bg-slate-800 rounded-lg"
