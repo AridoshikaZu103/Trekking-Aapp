@@ -1,7 +1,7 @@
 import React from 'react';
-import { Mountain, LogOut, Shield, UserCheck, Compass } from 'lucide-react';
+import { Mountain, LogOut, Shield, UserCheck, Compass, Lightbulb } from 'lucide-react';
 
-export default function Navbar({ currentUser, onLogout }) {
+export default function Navbar({ currentUser, onLogout, onOpenTutorial }) {
   const getRoleBadge = (role) => {
     switch (role) {
       case 'admin':
@@ -41,30 +41,41 @@ export default function Navbar({ currentUser, onLogout }) {
             </div>
           </div>
 
-          {/* User Section / Actions */}
-          {currentUser ? (
-            <div className="flex items-center gap-4">
-              <div className="hidden sm:flex items-center gap-3">
-                <div className="text-right">
-                  <div className="text-sm font-semibold text-slate-200">{currentUser.username}</div>
-                  <div className="text-xs text-slate-400">{currentUser.email}</div>
+          {/* Tutorial & User Section */}
+          <div className="flex items-center gap-3">
+            {/* 💡 Lightbulb Tutorial Button */}
+            <button
+              onClick={onOpenTutorial}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 shadow-lg shadow-amber-500/10 transition-all group"
+            >
+              <Lightbulb className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
+              <span className="hidden sm:inline">Guide & Tutorial</span>
+            </button>
+
+            {currentUser ? (
+              <div className="flex items-center gap-3">
+                <div className="hidden sm:flex items-center gap-3">
+                  <div className="text-right">
+                    <div className="text-sm font-semibold text-slate-200">{currentUser.username}</div>
+                    <div className="text-xs text-slate-400">{currentUser.email}</div>
+                  </div>
+                  {getRoleBadge(currentUser.role)}
                 </div>
-                {getRoleBadge(currentUser.role)}
+                <button
+                  onClick={onLogout}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-medium text-slate-300 hover:text-white bg-slate-800/60 hover:bg-rose-600/20 hover:border-rose-500/30 border border-slate-700/50 transition-all"
+                >
+                  <LogOut className="w-4 h-4 text-rose-400" />
+                  <span>Logout</span>
+                </button>
               </div>
-              <button
-                onClick={onLogout}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white bg-slate-800/60 hover:bg-rose-600/20 hover:border-rose-500/30 border border-slate-700/50 transition-all"
-              >
-                <LogOut className="w-4 h-4 text-rose-400" />
-                <span>Logout</span>
-              </button>
-            </div>
-          ) : (
-            <div className="text-sm text-slate-400 flex items-center gap-2">
-              <Compass className="w-4 h-4 text-teal-400 animate-spin-slow" />
-              <span>Multi-role Trekking Portal</span>
-            </div>
-          )}
+            ) : (
+              <div className="hidden md:flex text-xs text-slate-400 items-center gap-2">
+                <Compass className="w-4 h-4 text-teal-400" />
+                <span>Multi-role Trekking Portal</span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </header>
