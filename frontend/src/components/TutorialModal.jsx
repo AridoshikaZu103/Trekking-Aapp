@@ -107,6 +107,29 @@ export default function TutorialModal({ isOpen, onClose, onQuickLogin }) {
                 </div>
               </div>
 
+              {/* 3D Orbit Radar Live Stage */}
+              <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="orbit-perspective py-2">
+                  <div className="orbit-stage scale-90">
+                    <div className="orbit-ring-outer" />
+                    <div className="orbit-ring-inner" />
+                    <div className="orbit-center-core">
+                      <Compass className="w-6 h-6 animate-spin-slow" />
+                    </div>
+                    <div className="orbit-node-1">Hampta Pass</div>
+                    <div className="orbit-node-2">Kashmir Lakes</div>
+                    <div className="orbit-node-3">Kedarkantha</div>
+                  </div>
+                </div>
+                <div className="text-left flex-1 pl-2">
+                  <span className="text-[10px] uppercase tracking-wider font-extrabold text-teal-400">Live 3D Expedition Orbit</span>
+                  <h5 className="font-extrabold text-white text-sm mt-0.5">Real-Time Route Radar & Capacity Tracking</h5>
+                  <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+                    Live race map visualization tracks high-altitude Himalayan routes, slots capacity, and staff availability across all roles.
+                  </p>
+                </div>
+              </div>
+
               {/* 3D Role Feature Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {/* Admin 3D Card */}
