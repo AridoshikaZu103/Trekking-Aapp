@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mountain, LogOut, Shield, UserCheck, Compass, Lightbulb } from 'lucide-react';
+import { Mountain, LogOut, Shield, UserCheck, Compass, Lightbulb, Linkedin } from 'lucide-react';
 
 export default function Navbar({ currentUser, onLogout, onOpenTutorial }) {
   const getRoleBadge = (role) => {
@@ -51,6 +51,18 @@ export default function Navbar({ currentUser, onLogout, onOpenTutorial }) {
               <Lightbulb className="w-4 h-4 text-amber-400 group-hover:scale-110 transition-transform drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]" />
               <span className="hidden sm:inline">Guide & Tutorial</span>
             </button>
+
+            {/* 💼 LinkedIn Button */}
+            <a
+              href="https://www.linkedin.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/30 shadow-lg shadow-blue-500/10 transition-all group"
+              title="Connect on LinkedIn"
+            >
+              <Linkedin className="w-4 h-4 text-blue-400 group-hover:scale-110 transition-transform" />
+              <span className="hidden md:inline">LinkedIn</span>
+            </a>
 
             {currentUser ? (
               <div className="flex items-center gap-3">

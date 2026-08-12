@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Linkedin } from 'lucide-react';
 import Navbar from './components/Navbar';
 import TutorialModal from './components/TutorialModal';
 import LiveTicker from './components/LiveTicker';
@@ -336,8 +337,19 @@ export default function App() {
         )}
       </main>
 
-      <footer className="border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 glass-panel mt-auto">
-        <p>© 2026 TrekOps - Trekking Management App V1 | React + Vite + Flask REST API</p>
+      <footer className="border-t border-slate-800/80 py-6 text-xs text-slate-400 glass-panel mt-auto">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p>© 2026 TrekOps - Trekking Management App V1 | React + Vite + Flask REST API</p>
+          <a
+            href="https://www.linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-600/10 hover:bg-blue-600/20 text-blue-400 border border-blue-500/30 transition-all font-semibold shadow-sm hover:shadow-blue-500/20"
+          >
+            <Linkedin className="w-4 h-4 text-blue-400" />
+            <span>Connect on LinkedIn</span>
+          </a>
+        </div>
       </footer>
     </div>
   );
