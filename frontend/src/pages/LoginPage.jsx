@@ -89,7 +89,7 @@ export default function LoginPage({ onLogin, onNavigateRegister, errorMsg }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 px-4 btn-gradient rounded-xl font-extrabold text-white shadow-lg shadow-teal-500/20 flex items-center justify-center gap-2 text-sm transition-all hover:opacity-95"
+            className="login-btn-primary btn-gradient"
           >
             {loading ? (
               <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />

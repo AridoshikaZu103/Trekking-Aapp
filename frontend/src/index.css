@@ -227,6 +227,25 @@ body {
     overflow: hidden;
 }
 
+.btn-gradient {
+    background: linear-gradient(135deg, #14b8a6 0%, #2563eb 100%) !important;
+    border: none !important;
+    box-shadow: 0 6px 20px rgba(20, 184, 166, 0.4) !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.btn-gradient:hover {
+    opacity: 0.96 !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 8px 28px rgba(20, 184, 166, 0.55) !important;
+}
+
+.btn-gradient:active {
+    transform: translateY(0) !important;
+}
+
 .btn-primary-blue:hover {
     background-color: var(--primary-blue-hover) !important;
     box-shadow: var(--shadow-glow-blue) !important;
