@@ -89,6 +89,84 @@ trekking_app/
 
 ---
 
+## 🚀 How to Run Locally (Frontend & Backend)
+
+### Prerequisites
+- **Python 3.8+**
+- **Node.js 18+ & npm**
+
+---
+
+### Option 1: Development Mode (Recommended for Development)
+
+Runs Flask API on port `5000` and Vite React dev server on port `3000` with hot-reload and API proxying.
+
+#### Terminal 1 — Backend (Flask REST API)
+```bash
+# 1. (Optional) Create & activate Python virtual environment
+python3 -m venv venv
+source venv/bin/activate       # On Windows: venv\Scripts\activate
+
+# 2. Install backend dependencies
+pip install -r backend/requirements.txt
+
+# 3. Start Flask API server
+python app.py
+```
+> Flask API starts at **`http://127.0.0.1:5000`** (auto-seeds default database and admin/staff/user accounts).
+
+#### Terminal 2 — Frontend (React + Vite)
+```bash
+# 1. Navigate to frontend directory
+cd frontend
+
+# 2. Install frontend dependencies
+npm install
+
+# 3. Start Vite development server
+npm run dev
+```
+> Vite dev server starts at **`http://localhost:3000`** and automatically proxies `/api/*` calls to `http://127.0.0.1:5000`.
+
+---
+
+### Option 2: Unified Production Mode (Single Port 5000)
+
+Builds the React frontend and lets Flask serve both the static SPA and REST API on a single port:
+
+```bash
+# 1. Build the React frontend production bundle
+cd frontend
+npm install
+npm run build
+cd ..
+
+# 2. Install backend dependencies and run Flask
+pip install -r backend/requirements.txt
+python app.py
+```
+> Open **`http://127.0.0.1:5000`** in your browser.
+
+---
+
+## 🛠️ Git Workflow (Commit & Push)
+
+```bash
+# 1. Check status of modified files
+git status
+
+# 2. Stage all updated files
+git add .
+
+# 3. Commit with a meaningful message
+git commit -m "docs: add local execution guide and git instructions"
+
+# 4. Push to remote repository
+git push origin main
+```
+
+---
+
 ## 🌐 Vercel Deployment
 
 Live Application: **[https://trekking-aapp.vercel.app/login](https://trekking-aapp.vercel.app/login)**
